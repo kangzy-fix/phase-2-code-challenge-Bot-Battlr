@@ -1,3 +1,4 @@
+
 import React from "react";
 
 const botTypeClasses = {
@@ -9,13 +10,84 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot }) {
+
+
+
+function BotCard({ bot, setBotArmy, setBots, position }) {
+
+  
+  function handleBotClick(e) {
+
+    console.log("Bot Clicked: ID: " + bot.id)
+
+    e.stopPropagation()
+
+    setBotArmy(currentArmy=> {
+
+      currentArmy = [...currentArmy]
+
+      if(currentArmy.includes(bot)) {
+
+        if(position == "army") {
+          // remove bot from army
+          currentArmy.splice(currentArmy.indexOf(bot), 1)
+        }
+
+        
+      } else {
+        // add bot to army
+        currentArmy.push(bot)
+      }
+
+      console.log("Army:" + typeof currentArmy + " Size: " + currentArmy.length)
+      return currentArmy;
+
+    })
+
+    
+  }
+
+
+
+
+  function dischargeBot(e) {
+
+    e.stopPropagation()
+
+
+    fetch(`http://localhost:8002/bots/${bot.id}`, { method: 'DELETE' }).then((response)=>{
+
+      // remove from army
+      setBotArmy(currentArmy => {
+
+        currentArmy = [...currentArmy]
+
+        if(currentArmy.includes(bot)) {
+          // remove bot from army
+          currentArmy.splice(currentArmy.indexOf(bot), 1)
+        }
+        return currentArmy
+      })
+
+      // remove from list
+      setBots(currentBots => {
+        currentBots = [...currentBots]
+        currentBots.splice(currentBots.indexOf(bot), 1)
+        return currentBots
+      })
+
+
+  })
+
+}
+
+
   return (
     <div className="ui column">
       <div
         className="ui card"
         key={bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        onClick={(e) => handleBotClick(e)}
       >
         <div className="image">
           <img alt="oh no!" src={bot.avatar_url} />
@@ -47,8 +119,8 @@ function BotCard({ bot }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>
-                  console.log("add code to connect event listener")
+                onClick={(e) =>
+                  dischargeBot(e)
                 }
               >
                 x
