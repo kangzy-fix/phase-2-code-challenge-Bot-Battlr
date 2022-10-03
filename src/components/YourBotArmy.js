@@ -10,7 +10,7 @@ function YourBotArmy({botArmy, setBotArmy, setBots}) {
       <div className="ui five column grid">
         <div className="row bot-army-row">
           {botArmy?.map( (bot, i)=> <BotCard bot={bot} key={i} setBotArmy={setBotArmy} setBots={setBots} position="army" />)}
-          Your Bot Army
+          <h1 className="iano" >Fix Bots</h1>
         </div>
       </div>
     </div>

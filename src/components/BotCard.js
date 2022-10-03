@@ -28,7 +28,7 @@ function BotCard({ bot, setBotArmy, setBots, position }) {
 
       if(currentArmy.includes(bot)) {
 
-        if(position == "army") {
+        if(position === "army") {
           // remove bot from army
           currentArmy.splice(currentArmy.indexOf(bot), 1)
         }
@@ -123,7 +123,7 @@ function BotCard({ bot, setBotArmy, setBots, position }) {
                   dischargeBot(e)
                 }
               >
-                x
+                X
               </button>
             </div>
           </span>
